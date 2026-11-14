@@ -1,0 +1,75 @@
+/* 1. Responsabilité : Styles globaux, variables CSS dynamiques du thème et directives Tailwind */
+/* 2. Dépendances clés : tailwindcss */
+/* 3. Mots-clés métier : styles, tailwind, theme_variables, dynamic_branding, custom_scrollbar */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --c-primary: #EB5E57;
+  --bleu-nuit: #272154;
+  --bleu-fonce: #312783;
+  --bleu-clair: #00B1EB;
+  --light-beige: #F3F1F0;
+  --vert: #00A68D;
+  --violet: #9E2986;
+  --rouge: #E62154;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--light-beige);
+  color: var(--bleu-nuit);
+  font-family: 'Inter', sans-serif;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Liaisons dynamiques des classes utilitaires vers les variables CSS du thème */
+.bg-\[\#272154\] { background-color: var(--bleu-nuit) !important; }
+.hover\:bg-\[\#272154\]:hover { background-color: var(--bleu-nuit) !important; }
+.text-\[\#272154\] { color: var(--bleu-nuit) !important; }
+.border-\[\#272154\] { border-color: var(--bleu-nuit) !important; }
+.from-\[\#272154\] {
+  --tw-gradient-from: var(--bleu-nuit) var(--tw-gradient-from-position) !important;
+  --tw-gradient-to: rgb(39 33 84 / 0) var(--tw-gradient-to-position) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+
+.bg-\[\#312783\] { background-color: var(--bleu-fonce) !important; }
+.hover\:bg-\[\#312783\]:hover { background-color: var(--bleu-fonce) !important; }
+.text-\[\#312783\] { color: var(--bleu-fonce) !important; }
+.border-\[\#312783\] { border-color: var(--bleu-fonce) !important; }
+.focus\:ring-\[\#312783\]:focus { --tw-ring-color: var(--bleu-fonce) !important; }
+.via-\[\#312783\] {
+  --tw-gradient-to: rgb(49 39 131 / 0) var(--tw-gradient-to-position) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--bleu-fonce) var(--tw-gradient-via-position), var(--tw-gradient-to) !important;
+}
+
+.bg-\[\#EB5E57\] { background-color: var(--c-primary) !important; }
+.hover\:bg-\[\#EB5E57\]:hover { background-color: var(--c-primary) !important; }
+.peer:checked ~ .peer-checked\:bg-\[\#EB5E57\] { background-color: var(--c-primary) !important; }
+.text-\[\#EB5E57\] { color: var(--c-primary) !important; }
+.hover\:text-\[\#EB5E57\]:hover { color: var(--c-primary) !important; }
+.border-\[\#EB5E57\] { border-color: var(--c-primary) !important; }
+.to-\[\#EB5E57\] { --tw-gradient-to: var(--c-primary) var(--tw-gradient-to-position) !important; }
+
+/* Custom modern scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(49, 39, 131, 0.2);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(49, 39, 131, 0.4);
+}

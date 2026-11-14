@@ -1,0 +1,52 @@
+# Docker Compose pour environnement de développement local — Forum des Métiers
+# Redémarrage automatique au reboot machine : restart: unless-stopped
+# Hot-reloading & persistance SQLite activés
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.dev
+    container_name: forum-metiers-backend
+    restart: unless-stopped
+    ports:
+      - "8190:8190"
+    volumes:
+      - ./backend:/app/backend
+      - ./forum_metiers.db:/app/forum_metiers.db
+    environment:
+      - APP_ENV=development
+      - APP_PORT=8190
+      - DATABASE_URL=sqlite:///./forum_metiers.db
+      - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@etablissement.fr}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+      - STUDENT_TOKEN_SALT=forum_metiers_student_portal_hmac_salt_2027
+      - PYTHONUNBUFFERED=1
+      - PYTHONPATH=/app
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8190/api/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile.dev
+    container_name: forum-metiers-frontend
+    restart: unless-stopped
+    ports:
+      - "5190:5190"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_TARGET=http://backend:8190
+      - VITE_LAN_URL=${VITE_LAN_URL:-http://127.0.0.1:5190}
+      - VITE_USE_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      backend:
+        condition: service_healthy

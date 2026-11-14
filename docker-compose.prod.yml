@@ -1,0 +1,30 @@
+# Production Docker Compose — Forum des Métiers (White-Label)
+# Suitable for standalone host deployment (behind Nginx/Apache) or Traefik with labels.
+services:
+  web:
+    build: .
+    image: ${IMAGE_NAME:-forum-metiers:latest}
+    container_name: ${STACK_NAME:-forum-metiers}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${HOST_PORT:-8000}:8000"
+    environment:
+      - APP_ENV=production
+      - APP_PORT=8000
+      - DATABASE_URL=sqlite:////app/data/forum_metiers.db
+      - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@etablissement.fr}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-ChangeMeBeforeDeploy2027!}
+      - ADMIN_SECRET_KEY=${ADMIN_SECRET_KEY:-change_this_secret_key_in_production}
+      - STUDENT_TOKEN_SALT=${STUDENT_TOKEN_SALT:-change_this_token_salt_in_production}
+      - DEFAULT_SCHOOL_NAME=${DEFAULT_SCHOOL_NAME:-Lycée Général et Technologique}
+      - DEFAULT_SCHOOL_SUBTITLE=${DEFAULT_SCHOOL_SUBTITLE:-Forum de l'Orientation}
+      - DEFAULT_SCHOOL_WEBSITE_URL=${DEFAULT_SCHOOL_WEBSITE_URL:-}
+      - DEFAULT_ENT_NAME=${DEFAULT_ENT_NAME:-Pronote / ÉcoleDirecte}
+      - CORS_ORIGINS=${CORS_ORIGINS:-["http://localhost:8000"]}
+    volumes:
+      - forum_metiers_data:/app/data
+
+volumes:
+  forum_metiers_data:
+    driver: local

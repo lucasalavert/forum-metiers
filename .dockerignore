@@ -1,0 +1,16 @@
+.git
+.agent
+.venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache
+frontend/node_modules
+frontend/dist
+dist
+*.log
+*.db
+*.sqlite3
+*report.xml
+junit*.xml
